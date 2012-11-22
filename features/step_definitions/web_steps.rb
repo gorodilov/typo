@@ -35,18 +35,45 @@ Given /^the blog is set up$/ do
   Blog.default.update_attributes!({:blog_name => 'Teh Blag',
                                    :base_url => 'http://localhost:3000'});
   Blog.default.save!
+  
   User.create!({:login => 'admin',
                 :password => 'aaaaaaaa',
                 :email => 'joe@snow.com',
                 :profile_id => 1,
                 :name => 'admin',
                 :state => 'active'})
+  
+  User.create!({:login => 'alex',
+                :password => 'aaaaaaaa',
+                :email => 'alex@gmail.com',
+                :profile_id => 2,
+                :name => 'Alexey',
+                :state => 'active'})
+  
+  User.create!({:login => 'sveta',
+                :password => 'aaaaaaaa',
+                :email => 'sveta@gmail.com',
+                :profile_id => 3,
+                :name => 'Svetlana',
+                :state => 'active'})  
 end
 
 And /^I am logged into the admin panel$/ do
   visit '/accounts/login'
   fill_in 'user_login', :with => 'admin'
   fill_in 'user_password', :with => 'aaaaaaaa'
+  click_button 'Login'
+  if page.respond_to? :should
+    page.should have_content('Login successful')
+  else
+    assert page.has_content?('Login successful')
+  end
+end
+
+Given /^I am logged as '(.+)' with password '(.+)'$/ do |usr, pwd|
+  visit '/accounts/login'
+  fill_in 'user_login', :with => usr
+  fill_in 'user_password', :with => pwd
   click_button 'Login'
   if page.respond_to? :should
     page.should have_content('Login successful')
@@ -275,4 +302,17 @@ end
 
 Then /^show me the page$/ do
   save_and_open_page
+end
+
+Given /the following articles exist/ do |articles_table|
+  articles_table.hashes.each do |article|
+    Article.create(article)
+  end
+  puts Article.all
+end
+
+Given /the following comments exist/ do |feedbacks_table|
+  feedbacks_table.hashes.each do |feedback|
+    Feedback.create(feedback)
+  end
 end

@@ -70,7 +70,14 @@ class Article < Content
       self.settings = {}
     end
   end
-
+  
+  def merge_with(other_article_id)
+    other_article = Article.find_by_id(other_article_id)
+    merged_text = other_article.body + "<br/>" + self.body
+    Article.update(other_article_id, :body => merged_text)
+    self.delete
+  end
+  
   def set_permalink
     return if self.state == 'draft'
     self.permalink = self.title.to_permalink if self.permalink.nil? or self.permalink.empty?

@@ -26,6 +26,30 @@ class Admin::ContentController < Admin::BaseController
   def new
     new_or_edit
   end
+  
+  def merge
+    other_article_id = params[:merge_with].to_i
+    @article = Article.find(params[:id])
+
+    unless @article.access_by?(current_user)
+      flash[:error] = _("Error! You are not allowed to perform this action.")
+      return (redirect_to :action => 'index')
+    end
+    
+    if @article.id == other_article_id
+      flash[:error] = _("Error! You cannot merge this article: #{other_article_id}")
+      return (redirect_to :action => 'index')
+    end
+    
+    unless Article.exists?(other_article_id)
+      flash[:error] = _("Error! The article doesn't exists: #{other_article_id}")
+      return (redirect_to :action => 'index')
+    end
+    
+    @article.merge_with(other_article_id)
+    flash[:notice] = _("This article was merged successfully: #{@article.id} -> #{other_article_id}")
+    redirect_to :action => 'index'
+  end
 
   def edit
     @article = Article.find(params[:id])
