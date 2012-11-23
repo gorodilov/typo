@@ -75,6 +75,10 @@ class Article < Content
     other_article = Article.find_by_id(other_article_id)
     merged_text = other_article.body + "<br/>" + self.body
     Article.update(other_article_id, :body => merged_text)
+    Comment.find_all_by_article_id(self.id).each do |comment|
+      comment.article_id = other_article_id
+      comment.save!
+    end
     self.delete
   end
   
