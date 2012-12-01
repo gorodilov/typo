@@ -33,8 +33,7 @@ World(WithinHelpers)
 
 Given /^the blog is set up$/ do
   Blog.default.update_attributes!({:blog_name => 'Teh Blag',
-                                   :base_url => 'http://nameless-sea-4201.herokuapp.com'});
-#                                   :base_url => 'http://localhost:3000'});
+                                   :base_url => 'http://localhost:3000'});
   Blog.default.save!
   
   User.create!({:login => 'admin',
@@ -56,7 +55,9 @@ Given /^the blog is set up$/ do
                 :email => 'sveta@gmail.com',
                 :profile_id => 3,
                 :name => 'Svetlana',
-                :state => 'active'})  
+                :state => 'active'})
+  
+  Category.create!({:name => 'Test Category'})
 end
 
 And /^I am logged into the admin panel$/ do
