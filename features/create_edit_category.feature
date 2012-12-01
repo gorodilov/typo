@@ -1,5 +1,5 @@
 Feature: Create or Edit a Category
-  I want to be able to create or update categories as admin
+  I want to have an ablility to add or edit category types as admin
 
   Background:
     Given the blog is set up
@@ -9,9 +9,9 @@ Feature: Create or Edit a Category
   Given I am on the content page
   When I follow "Categories"
   Then I should see "Categories"
-  When I fill in "category_name" with "Ruby"
-  When I fill in "category_keywords" with "ruby, rails, ror"
-  When I fill in "category_description" with "Ruby forever!"
+  When I fill in "category_name" with "Russia"
+  When I fill in "category_keywords" with "russia, moscow, oil"
+  When I fill in "category_description" with "Russia description!"
   When I press "Save"
   Then I should see "Category was successfully saved."
 
@@ -19,7 +19,7 @@ Feature: Create or Edit a Category
   Given I am on the content page
   When I follow "Categories"
   Then I should see "Categories"
-  When I follow "Test Category"
-  When I fill in "category_description" with "For testing"
+  When I follow "New Category"
+  When I fill in "category_description" with "New category"
   When I press "Save"
   Then I should see "Category was successfully saved."
